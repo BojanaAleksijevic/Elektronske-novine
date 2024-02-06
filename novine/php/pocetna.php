@@ -73,8 +73,8 @@
         <a href="#"><img src="../slike/yt.png" alt="Youtube" class="social-icon"></a>
   
     </div>
-    <footer>
-        <p>Copyright © 2024 Bobigram</p>
-    </footer>
+    <?php
+        include 'footer.php';
+    ?>
 </body>
 </html>

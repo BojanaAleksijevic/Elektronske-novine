@@ -1,0 +1,1 @@
+<p>admin odobrava vesti</p>

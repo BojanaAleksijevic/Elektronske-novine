@@ -1,59 +1,68 @@
-<!--ova stranica je dostupna samo prijavljenom novinaru-->
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-?>
-
-
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/stil.css">
-    <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
-    <title>Dodaj vest</title>
-
-</head>
-    
-    <body>
-        <?php
-        include 'navbar.php';
-        ?>
-<!--
-Forma može sadržavati različite vrste elemenata, kao što su tekstualna polja, padajući meniji, 
-dugmad za slanje, itd. Svi ovi elementi omogućavaju korisnicima da unesu i pošalju podatke. 
-Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu action
-• enctype="multipart/form-data" - koristi se kada forma sadrži podatke za otpremanje (upload), kao što su datoteke.
--->
-        <div class="">
-            <form class="" action="dodaj_vest.php" enctype="multipart/form-data" method="POST">
-                <textarea name="content" rows="20" cols="80" placeholder="Napisi tekst vesti" required></textarea><br>
-                <input type="file" name="image" value="" required><br><br>
-                <!-- u css-u kucao input[type=file] i input[type=submit]--->
-                <input type="submit" name="submit" value="Submit">
-            </form> 
-            <?php
             include 'C:\wamp64\www\novine\process\db.php';
 
             if(isset($_POST['submit'])) {
+                $title=$_POST['title'];
+                $subtitle=$_POST['subtitle'];
                 $content=$_POST['content'];
-                $image=$_FILES['image']['name'];
-                $image_type=$_FILES['image']['type'];
-                $image_size=$_FILES['image']['size'];
-                $image_tem_loc=$_FILES['image']['tmp_name'];
-                $image_store="../slike/".$image;  
-                
-                move_uploaded_file($image_tem_loc, $image_store);
+                $idCategory=$_POST['categoryID'];
 
-                $sql="INSERT INTO news (content,image) VALUES ('$content','$image')";
+
+                $date = date("Y-m-d H:i:s");
+                $status = 'pending';
+                $userID = $_SESSION['id'];
+
+
+                $sql="INSERT INTO news (title, subtitle, content, categoryID, date, status, userID) 
+                VALUES ('$title', '$subtitle', '$content', '$idCategory', '$date', '$status', '$userID')";
+                                
                 $query = mysqli_query($conn, $sql);
-            }
+
+
+                $idCategory_rez = mysqli_query($conn, "SELECT idNews FROM news 
+                WHERE title = '{$title}'");
+                $idCategoryRow = mysqli_fetch_assoc($idCategory_rez);
+                $newsID = $idCategoryRow['idNews'];
+                $images=$_FILES['images'];
+                /*
+                foreach petlju da iterira kroz niz imena slika ($images['name']). 
+                  Ključ $key će sadržavati indeks trenutne slike, 
+                  a $image_name će sadržavati naziv trenutne slike.*/
+                foreach ($images['name'] as $key => $image_name) {
+                    $image_type = $images['type'][$key];
+                    $image_size = $images['size'][$key];
+                    $image_tmp_loc = $images['tmp_name'][$key];
+                    
+                    // Čuvanje slike u folder
+                    $image_store = "../slike/" . $image_name;
+                    move_uploaded_file($image_tmp_loc, $image_store);
             
-            ?>
-        </div>
+                    // Unos u tabelu images
+                    $sql_insert_image = "INSERT INTO images (newsID, name) VALUES ('$newsID', '$image_name')";
+                    $query_insert_image = mysqli_query($conn, $sql_insert_image);
+                }
+                
+                $tagString = $_POST['tags'];
+                // Razdvajanje tagova po zarezima
+                $tagsArray = explode(',', $tagString);
 
+                // Umetanje tagova u tabelu tags
+                foreach ($tagsArray as $tag) {
+                    $sql_insert_tag = "INSERT INTO tags (contentTag, newsID) VALUES ('$tag', '$newsID')";
+                    $query_insert_tag = mysqli_query($conn, $sql_insert_tag);
+                }
 
-    </body>
+                
 
-</html>
+                
+            
+                if ($query_insert_tag) {
+                    header('Location: admin_odobrava_vesti.php');
+                    exit();
+                }
+                else {
+                    echo "Greška prilikom dodavanja novosti: " . mysqli_error($conn);
+                }
+            
+            }
+                ?>

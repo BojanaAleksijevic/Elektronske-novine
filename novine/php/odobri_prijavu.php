@@ -18,14 +18,31 @@ if (isset($_GET['id'])) {
     if ($result && mysqli_num_rows($result) == 1) {
         $applicationData = mysqli_fetch_assoc($result);
 
+        $queryInsertCategory = "INSERT INTO category (name)
+        VALUES ('{$applicationData['kategorija']}')";
+        if (mysqli_query($conn, $queryInsertCategory)) {
+        
+
+            $idCategory_rez = mysqli_query($conn, "SELECT idCategory FROM category 
+            WHERE name = '{$applicationData['kategorija']}'");
+            $idCategoryRow = mysqli_fetch_assoc($idCategory_rez);
+            $idCategory = $idCategoryRow['idCategory'];
+        } else {
+            echo "Greška prilikom dodavanja kategorije: " . mysqli_error($conn);
+
+        }
+          
+
         // Postavljanje statusa na 'approved' za odabranu prijavu
         $queryUpdateStatus = "UPDATE prijave SET status = 'approved' WHERE id = $id";
         if (mysqli_query($conn, $queryUpdateStatus)) {
 
             // Dodavanje korisnika u tabelu User
-            $queryInsertUser = "INSERT INTO User (id, username, password, role)
+            $queryInsertUser = "INSERT INTO User (id, username, password, role, categoryID)
                                 VALUES ('{$applicationData['id']}', '{$applicationData['username']}',
-                                        '{$applicationData['password']}', '{$applicationData['role']}')";
+                                        '{$applicationData['password']}', 
+                                        '{$applicationData['role']}', 
+                                        '{$idCategory}')";
 
             if (mysqli_query($conn, $queryInsertUser)) {
                 header("Location: pregled_prijava.php");
