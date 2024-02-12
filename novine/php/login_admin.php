@@ -5,7 +5,8 @@
 <head>
   <title>Glavni urednik</title>
   <link rel="stylesheet" type="text/css" href="../css/login.css">
-  
+  <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
+
 </head>
 <body>
     <?php

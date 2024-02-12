@@ -7,6 +7,7 @@
 
 <html>
 <head>
+  <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
   <title>Urednik</title>
   <!--<link rel="stylesheet" type="text/css" href="../css/login.css">
   mozda registracija.css-->

@@ -1,3 +1,9 @@
+<?php
+require_once ('C:\wamp64\www\novine\process\db.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,13 +27,40 @@
                         <div class="marquee">
 
                             <div class="marquee-content">
-                                <a href="#" class="marquee-item"> • Bruka na Novoj S! I oni bi da vode Srbiju, a ne znaju ni elementarne stvari (VIDEO)</a>
-                                <a href="#" class="marquee-item"> • Bruka na Novoj S! I oni bi da vode Srbiju, a ne znaju ni elementarne stvari (VIDEO)</a>
+                                
+                            <?php
+                            // Dohvatanje naslova vesti iz baze podataka
+                            $query = "SELECT title FROM news ORDER BY date DESC LIMIT 3";
+                            $result = mysqli_query($conn, $query);
+
+                            // Provera da li ima rezultata
+                            if (mysqli_num_rows($result) > 0) {
+                                // Prikaz naslova kao linkova unutar marquee
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<a href='#' class='marquee-item'> ◼️  " . $row['title'] . "</a>";
+                                }
+                            } else {
+                                echo "Nema dostupnih vesti.";
+                            }
+                            ?>
+
                             </div>
                             <div class="marquee-content">
-                                <a href="#" class="marquee-item"> • Bruka na Novoj S! I oni bi da vode Srbiju, a ne znaju ni elementarne stvari (VIDEO)</a>
-                                <a href="#" class="marquee-item"> • Bruka na Novoj S! I oni bi da vode Srbiju, a ne znaju ni elementarne stvari (VIDEO)</a>
-                            </div>
+
+                            <?php
+                            $query = "SELECT title FROM news ORDER BY date DESC LIMIT 3";
+                            $result = mysqli_query($conn, $query);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<a href='#' class='marquee-item'>  ◼️  " . $row['title'] . "</a>";
+                                }
+                            } else {
+                                echo "Nema dostupnih vesti.";
+                            }
+                            ?>
+
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -39,28 +72,37 @@
     <?php
         include 'navbar.php';
     ?>
-    <!--
-    <div class="container">
-        <header>
-            <img src="../slike/logo2.png" alt="Logo" class="logo">
-            <nav>
-                <ul>
-                    <li><a href="#"> Pocetna </a></li>
-                    <li><a href="#"> Kategorija1 </a></li>
-                    <li><a href="#"> Kategorija2 </a></li>
-                    <li><a href="#"> Kategorija3 </a></li>
-                    <li style="margin-right: 360px;"><a href="#"> Kategorija4 </a></li>
-                    <li style="margin-right: 0px;"><a href="loginadmin.php"> Prijava </a></li>
-                    <li style="margin-right: 0px;"><a href="#"> Registracija </a></li>
-                </ul>
-            </nav>
-        </header>
-    </div> 
--->
+    
+    
+    <div class='glavni-div'>
+        <div class='div-levo-pocetna'>
+            <h1>NAJNOVIJE VESTI DANA</h1>
+        </div>
+        
+            <?php
+            // include 'vest_na_pocetnoj.php'
+            ?>
 
-    <?php
-    // include 'vest_na_pocetnoj.php'
-    ?>
+        <div class='div-desno-pocetna'>
+            <input type="search" name="Pretraga" id="Pretraga">
+            <h3 style="color: black;">Kategorije</h3>
+
+            <?php
+            $query = "SELECT DISTINCT name FROM category"; 
+            $result = mysqli_query($conn, $query);
+
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<a href='#' class='marquee-item' style='color: black;'>" . $row['name'] . "</a><br>";
+                }
+            } else {
+                echo "Nema dostupnih kategorija.";
+            }
+            ?>
+
+</div>
+
+    </div>
 
 
     <hr></hr>

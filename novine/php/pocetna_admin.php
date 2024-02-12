@@ -15,9 +15,10 @@
             <img src="../slike/logo2.png" alt="Logo" class="logo">
             <nav>
                 <ul>
-                    <li><a href="pocetna.php"> Pocetna </a></li>
-                    <li ><a href="logout.php"> LogOut </a></li>
                     <li ><a href="pregled_prijava.php"> Pogledaj prijave </a></li>
+                    <li ><a href="admin_odobrava_vesti.php"> Odobri vesti </a></li>
+                    <li ><a href="admin_odobrava_zahteve.php"> Odobri zahteve </a></li>
+                    <li ><a href="logout.php"> LogOut </a></li>
     
                 </ul>
             </nav>

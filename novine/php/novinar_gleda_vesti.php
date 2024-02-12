@@ -44,15 +44,37 @@
 
     if (mysqli_num_rows($result) > 0) {
         echo "<table>";
-        echo "<tr><th>Naslov</th><th>Podnaslov</th><th>Kontent</th></tr>";
+        echo "<tr><th>Datum</th><th>Naslov</th><th>Podnaslov</th><th>Sadrzaj</th><th>Tagovi</th><th>Izmena</th><th>Brisanje</th></tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
+            echo "<td>" . $row["date"] . "</td>";
             echo "<td>" . $row["title"] . "</td>";
             echo "<td>" . $row["subtitle"] . "</td>";
             echo "<td>" . $row["content"] . "</td>";
-            
+            echo "<td>" . $row["date"] . "</td>";
 
-            //echo "<td><a href='odobri_prijavu.php?id=" . $row["id"] . "'>Odobri</a></td>";
+    
+            // Provera statusa vesti zbog izmene
+            if ($row["status"] == "pending") {
+                echo "<td><a href='izmeni_vest.php?id=" . $row["idNews"] . "'>Izmeni</a></td>";
+            } else if ($row["status"] == "editing") {
+                echo "<td>Poslat je zahtev.</td>";
+            }
+            else {
+                echo "<td>Vest je odobrena. <a href='zahtev_za_izmenu_vesti.php?id=" . $row["idNews"] . "'>Zahtev za izmenu</a></td>";
+            } 
+            
+            // Provera statusa vesti zbog brisanja
+            if ($row["status"] == "pending") {
+                echo "<td><a href='obrisi_vest_novinar.php?id=" . $row["idNews"] . "'>Obrisi</a></td>";
+            } else if ($row["status"] == "editing") {
+                echo "<td>Poslat je zahtev.</td>";
+            }
+            else {
+                echo "<td>Vest je odobrena. <a href='zahtev_za_brisanje_vesti.php?id=" . $row["idNews"] . "'>Zahtev za brisanje</a></td>";
+            } 
+            
+            
             echo "</tr>";
         }
         echo "</table>";
@@ -61,8 +83,13 @@
     }
 
     mysqli_close($conn);
+
+    
 ?>
 
+<?php
+    include 'footer.php'
+?>
 </body>
     
 </html>

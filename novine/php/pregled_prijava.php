@@ -1,3 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/stil.css">
+    <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
+    <title> Pregled prijava admin </title>
+</head>
+
+<body>
+
+    <?php
+        include 'navbar_admin.php';
+    ?>
+</body>
+    
+</html>
+
+
 <?php
 require_once ('C:\wamp64\www\novine\process\db.php');
 
@@ -19,7 +39,7 @@ $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
     echo "<table>";
-    echo "<tr><th>Korisnicko ime</th><th>Kategorija</th><th>Iskustvo</th><th>Prijava za </th><th>Action</th></tr>";
+    echo "<tr><th>Korisnicko ime</th><th>Kategorija</th><th>Iskustvo</th><th>Prijava za </th><th>Odobravanje</th><th>Brisanje</th></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
         echo "<td>" . $row["username"] . "</td>";
@@ -36,6 +56,8 @@ if (mysqli_num_rows($result) > 0) {
         echo "</td>";
 
         echo "<td><a href='odobri_prijavu.php?id=" . $row["id"] . "'>Odobri</a></td>";
+        echo "<td><a href='obrisi_prijavu.php?id=" . $row["id"] . "'>Obrisi</a></td>";
+
         echo "</tr>";
     }
     echo "</table>";
@@ -44,4 +66,9 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 mysqli_close($conn);
+?>
+
+
+<?php
+    include 'footer.php';
 ?>

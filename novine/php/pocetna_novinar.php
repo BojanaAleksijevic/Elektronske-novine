@@ -47,7 +47,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
 
             // Provera da li je upit uspeo
             if (!$result) {
-                // Ovde dodajte logiku za rukovanje greškom
                 echo "Greška prilikom izvršavanja SQL upita: " . mysqli_error($conn);
             } else {
                 // Provera da li ima rezultata iz upita
@@ -76,7 +75,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
                 <br>
 
                 
-                <!-- Dodat input za tagove -->
                 <label for="tags">Dodajte tagove (odvojene zarezima):</label>
                 <input type="text" id="tags" name="tags">
 

@@ -24,6 +24,7 @@
                 $idCategoryRow = mysqli_fetch_assoc($idCategory_rez);
                 $newsID = $idCategoryRow['idNews'];
                 $images=$_FILES['images'];
+                
                 /*
                 foreach petlju da iterira kroz niz imena slika ($images['name']). 
                   Ključ $key će sadržavati indeks trenutne slike, 
@@ -53,11 +54,9 @@
                 }
 
                 
-
-                
-            
                 if ($query_insert_tag) {
-                    header('Location: admin_odobrava_vesti.php');
+                    echo "Vest je uspesno poslata!";
+                    header('Location: pocetna_novinar.php');
                     exit();
                 }
                 else {
@@ -65,4 +64,4 @@
                 }
             
             }
-                ?>
+?>

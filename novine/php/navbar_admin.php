@@ -14,14 +14,11 @@
             <img src="../slike/logo2.png" alt="Logo" class="logo">
             <nav>
                 <ul>
-                    <li><a href="pocetna.php"> Pocetna </a></li>
-                    <li><a href="#"> Vesti </a></li>
-                    <li><a href="#"> Sport </a></li>
-                    <li><a href="#"> Hronika </a></li>
-                    <li style="margin-right: 450px;"><a href="#"> Zabava </a></li>
-                    <li style="margin-right: 0px;"><a href="login_admin.php"> LogIn </a></li>
-                    <li style="margin-right: 0px;"><a href="registracija_urednika.php"> Registracija </a></li>
-                
+                    <li ><a href="pregled_prijava.php"> Pogledaj prijave </a></li>
+                    <li ><a href="admin_odobrava_vesti.php"> Odobri vesti </a></li>
+                    <li ><a href="admin_odobrava_zahteve.php"> Odobri zahteve </a></li>
+                    <li ><a href="logout.php"> LogOut </a></li>
+    
                 </ul>
             </nav>
         </header>

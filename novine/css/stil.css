@@ -5,6 +5,20 @@ body {
     
 }
 
+.glavni-div {
+    display: flex;
+}
+
+.div-levo-pocetna {
+    flex: 3; 
+}
+
+.div-desno-pocetna {
+    flex: 1;
+    padding: 20px;
+}
+
+
 /*setajuci meni*/
 .header-news, .container-drugi, .header-news-box, .header-news-slider-wrapper, .header-news-slider, .marquee, .marquee-content {
     line-height: 1.2;
@@ -67,7 +81,6 @@ body {
     animation: scrolling 20s linear infinite; /* trajanje animacije */
     flex-shrink: 0;
     white-space: nowrap; /*  da tekst ne prelazi u novi red */
-
 }
 
 .marquee-item {
@@ -90,8 +103,6 @@ body {
     font-family: "Roboto Condensed", sans-serif;
     padding-right: 10px;
 }
-
-/* ... ostatak vašeg CSS koda ... */
 
 
 
@@ -141,12 +152,16 @@ nav ul li :hover{
     opacity: 0.8;
 }
 
+
+/*PROMENI BOJU !!*/
 a {
     text-decoration: none;
-    color: white;
+    color: rgb(22, 202, 31);
     font-size: 15px;
     font-weight: bold;
 }
+
+
 
 .logo {
     width: 300px;
@@ -167,3 +182,19 @@ a {
     height: 40px;
     margin: 0 1rem;
 }
+
+/* za izbacivanje prozorcica sa greskama*/
+.success-message,  .error-message {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+    border-radius: 10px; 
+  	max-width: 500px; 
+    margin: 0 auto; 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    padding: 20px;
+    text-align: center; 
+    margin-top: 30px;
+}
+
