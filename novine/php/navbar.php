@@ -15,10 +15,10 @@
             <nav>
                 <ul>
                     <li><a href="pocetna.php"> Pocetna </a></li>
-                    <li><a href="#"> Vesti </a></li>
-                    <li><a href="#"> Sport </a></li>
-                    <li><a href="#"> Hronika </a></li>
-                    <li style="margin-right: 450px;"><a href="#"> Zabava </a></li>
+                    <li><a href="sve_vesti.php"> Vesti </a></li>
+                    <li><a href="kategorija.php?category=Sport"> Sport </a></li>
+                    <li><a href="kategorija.php?category=Hronika"> Hronika </a></li>
+                    <li style="margin-right: 450px;"><a href="kategorija.php?category=Zabava"> Zabava </a></li>
                     <li style="margin-right: 0px;"><a href="login_admin.php"> LogIn </a></li>
                     <li style="margin-right: 0px;"><a href="registracija_urednika.php"> Registracija </a></li>
                 

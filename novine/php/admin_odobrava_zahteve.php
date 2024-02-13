@@ -27,7 +27,7 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 0) {
     exit;
 }
 
-$queryPendingRequests = "SELECT news.idNews, news.title, user.username AS author_name 
+$queryPendingRequests = "SELECT news.idNews, news.title, CONCAT(user.name, ' ', user.surname) AS author_name 
                         FROM news 
                         INNER JOIN user ON news.userID = user.id 
                         WHERE status = 'editing'";

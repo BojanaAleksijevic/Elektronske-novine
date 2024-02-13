@@ -39,10 +39,11 @@ $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) > 0) {
     echo "<table>";
-    echo "<tr><th>Korisnicko ime</th><th>Kategorija</th><th>Iskustvo</th><th>Prijava za </th><th>Odobravanje</th><th>Brisanje</th></tr>";
+    echo "<tr><th>Ime</th><th>Prezime</th><th>Kategorija</th><th>Iskustvo</th><th>Prijava za </th><th>Odobravanje</th><th>Brisanje</th></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
-        echo "<td>" . $row["username"] . "</td>";
+        echo "<td>" . $row["name"] . "</td>";
+        echo "<td>" . $row["surname"] . "</td>";
         echo "<td>" . $row["kategorija"] . "</td>";
         echo "<td>" . $row["experience"] . "</td>";
         echo "<td>";

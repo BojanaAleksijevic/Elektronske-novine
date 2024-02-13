@@ -84,7 +84,6 @@ require_once ('C:\wamp64\www\novine\process\db.php');
             ?>
 
         <div class='div-desno-pocetna'>
-            <input type="search" name="Pretraga" id="Pretraga">
             <h3 style="color: black;">Kategorije</h3>
 
             <?php
@@ -93,14 +92,14 @@ require_once ('C:\wamp64\www\novine\process\db.php');
 
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<a href='#' class='marquee-item' style='color: black;'>" . $row['name'] . "</a><br>";
+                    echo "<a href='kategorija.php?category=" . $row['name'] . "' class='marquee-item' style='color: black;'>" . $row['name'] . "</a><br>";
                 }
             } else {
                 echo "Nema dostupnih kategorija.";
             }
             ?>
 
-</div>
+        </div>
 
     </div>
 

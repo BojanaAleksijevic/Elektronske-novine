@@ -4,13 +4,14 @@
 require_once ('C:\wamp64\www\novine\process\db.php');
 
 // ako korisnik šalje podatke za prijavu
-if (isset($_POST['username']) && isset($_POST['password'])) {
+if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['password'])) {
   
-  $username = $_POST['username'];
+  $name = $_POST['name'];
+  $surname = $_POST['surname'];
   $password = $_POST['password'];
   
-  // SQL upit za selektovanje korisnika iz baze podataka sa zadatim korisničkim imenom i lozinkom
-  $sql = "SELECT * FROM User WHERE username = '$username' AND password = '$password'";
+  // SQL upit za selektovanje korisnika iz baze podataka
+  $sql = "SELECT * from  User WHERE name = '$name' AND surname = '$surname' AND password = '$password'";
   
   $result = mysqli_query($conn, $sql);
   

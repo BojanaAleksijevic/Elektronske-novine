@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/stil.css">
     <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
-    <title> Admin odobrava vesti </title>
+    <title> Urednik odobrava vesti </title>
 </head>
 
 <body>
 
     <?php
-        include 'navbar_admin.php';
+        include 'navbar_urednik.php';
     ?>
 
 <?php
@@ -24,17 +24,18 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
 // Provera da li je korisnik admin
-if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 0) {
+if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 1) {
     header("Location: ../php/pocetna.php");
     exit;
 }
 
+$urednikID = $_SESSION['id'];
 
 $query = "SELECT news.*, category.name AS categoryName, CONCAT(user.name, ' ', user.surname) AS authorName 
           FROM news 
           JOIN category ON news.categoryID = category.idCategory
           JOIN user ON news.userID = user.id
-          WHERE status = 'pending'";
+          WHERE status = 'pending' AND category.idCategory = (SELECT categoryID FROM user WHERE id = $urednikID)";
 $result = mysqli_query($conn, $query);
 
 

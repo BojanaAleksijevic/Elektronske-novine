@@ -38,9 +38,9 @@ if (isset($_GET['id'])) {
         if (mysqli_query($conn, $queryUpdateStatus)) {
 
             // Dodavanje korisnika u tabelu User
-            $queryInsertUser = "INSERT INTO User (id, username, password, role, categoryID)
-                                VALUES ('{$applicationData['id']}', '{$applicationData['username']}',
-                                        '{$applicationData['password']}', 
+            $queryInsertUser = "INSERT INTO User (id, name, surname, password, role, categoryID)
+                                VALUES ('{$applicationData['id']}', '{$applicationData['name']}',
+                                        '{$applicationData['surname']}', '{$applicationData['password']}', 
                                         '{$applicationData['role']}', 
                                         '{$idCategory}')";
 

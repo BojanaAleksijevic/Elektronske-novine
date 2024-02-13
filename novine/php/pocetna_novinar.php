@@ -68,9 +68,47 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
                 <br>
 
                 <textarea name="content" rows="20" cols="80" placeholder="Napisi tekst vesti" required></textarea><br>
+<!---
+                <label for="videolink">Video Link:</label>
+                <input type="url" id="videolink" name="videolink" placeholder="Unesite URL vašeg videa" required>
+                <br>
+-->
                 
                 <label for="categoryID">Vasa kategorija je:</label>
-                <input type="text" id="categoryID" name="categoryID" value="<?php echo $kategorija_novinara; ?>" readonly>
+                <select id="categoryID" name="categoryID" style="display: none;">
+                    <?php
+                    include 'C:\wamp64\www\novine\process\db.php';
+
+                    $novinarID = $_SESSION['id'];
+
+                    // Dobijanje kategorije novinara iz tabele category
+                    $sql = "SELECT c.idCategory, c.name
+                            FROM category c
+                            JOIN user u ON c.idCategory = u.categoryID
+                            WHERE u.id = $novinarID";
+
+                    $result = mysqli_query($conn, $sql);
+
+                    // Provera da li je upit uspeo
+                    if (!$result) {
+                        echo "Greška prilikom izvršavanja SQL upita: " . mysqli_error($conn);
+                    } else {
+                        // Provera da li ima rezultata iz upita
+                        if ($row = mysqli_fetch_assoc($result)) {
+                            $kategorija_novinara_id = $row['idCategory'];
+                            $kategorija_novinara_name = $row['name'];
+                            echo "<option value='$kategorija_novinara_id'>$kategorija_novinara_name</option>";
+                        } else {
+                            // Dodatna provera ukoliko nema rezultata
+                            echo "Nema podataka za ovog novinara.";
+                        }
+                    }
+                    ?>
+                </select>
+                <input type="text" value="<?php echo $kategorija_novinara_name; ?>" readonly>
+
+
+
                 <!--ovde treba da bude po defaultu kategorija koju je on oznacio-->
                 <br>
 

@@ -25,8 +25,11 @@
       poslati na istu stranicu (forma.php u ovom slučaju) za dalju obradu.  
       --->
       <form method="post" action="<?php $_SERVER["PHP_SELF"] ?>">
-        <label for="username">Korisničko ime:</label>
-        <input type="text" id="username" name="username">
+        <label for="name">Ime:</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="surname">Prezime:</label>
+        <input type="text" id="surname" name="surname">
         <br>
         <label for="password">Lozinka:</label>
         <input type="password" id="password" name="password">
@@ -34,9 +37,11 @@
         <label for="kategorija">Kategorija:</label>
         <input type="text" id="kategorija" name="kategorija">
         <br>
+        
         <label for="experience">Iskustvo:</label>
-        <textarea name="experience" rows="20" cols="20" required></textarea><br>
- 
+        <br>
+        <textarea name="experience" rows="8" cols="50" required></textarea><br>
+
         <br><br>
         <input type="submit" name="submit" value="Posalji prijavu">
       </form>
@@ -49,17 +54,10 @@
 require ('C:\wamp64\www\novine\process\db.php');
 
 
-// da li poslata forma (da li je korisnik pritisnuo submit)
 if (isset($_POST['submit'])) {
- // $user_id = $_GET['user_id'];
-/*
-  if (isset($_SESSION['id'])) {
-    $user_id = $_SESSION['id']; 
-  } 
-  else{
-    header("Location:loginkandidat.php");
-  }*/
-  $username = $_POST['username'];
+  $name = $_POST['name'];
+  $surname = $_POST['surname'];
+
   $password = $_POST['password'];
   $kategorija = $_POST['kategorija'];
   $experience = $_POST['experience'];
@@ -68,7 +66,7 @@ if (isset($_POST['submit'])) {
   $created_at = date("Y-m-d H:i:s");
    
 
-  if (empty($username) || empty($password) || empty($kategorija) || empty($experience)) {
+  if (empty($name) || empty($surname) || empty($password) || empty($kategorija) || empty($experience)) {
     echo "Please fill in all the required fields.";
   }
   
@@ -76,8 +74,8 @@ if (isset($_POST['submit'])) {
    else {
     
    
-    $sql = "INSERT INTO prijave (username, password, kategorija, experience, role, status, created_at) 
-    VALUES ('$username', '$password', '$kategorija', '$experience', '$role', '$status', '$created_at')";
+    $sql = "INSERT INTO prijave (name, surname, password, kategorija, experience, role, status, created_at) 
+    VALUES ('$name', '$surname', '$password', '$kategorija', '$experience', '$role', '$status', '$created_at')";
     if (mysqli_query($conn, $sql)) {
       echo "Prijava je uspesno poslata!";
     } else {

@@ -15,8 +15,11 @@
     <h1> Login urednika </h1>
     
     <form method="post" action="../process/eurednik.php">
-      <label for="username">Korisničko ime:</label>
-      <input type="text" id="username" name="username">
+      <label for="name">Ime:</label>
+      <input type="text" id="name" name="name">
+      <br>
+      <label for="surname">Prezime:</label>
+      <input type="text" id="surname" name="surname">
       <br>
       <label for="password">Lozinka:</label>
       <input type="password" id="password" name="password">

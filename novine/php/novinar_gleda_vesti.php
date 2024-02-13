@@ -37,23 +37,47 @@
         header("Location: ../php/pocetna.php");
         exit;
     }
+/*
+ako imate nekoliko redova u tabeli i koristite GROUP_CONCAT na određenoj 
+koloni, ona će spojiti vrednosti te kolone iz svih redova u jedan niz, 
+razdvojen separatorom koji ste naveli.
+*/
 
-
-    $query = "SELECT * FROM news WHERE news.userID = '{$_SESSION['id']}'";
+    $query = "SELECT news.*, GROUP_CONCAT(DISTINCT tags.contentTag) AS tagovi, GROUP_CONCAT(DISTINCT images.name) AS slike
+            FROM news
+            LEFT JOIN tags ON news.idNews = tags.newsID
+            LEFT JOIN images ON news.idNews = images.newsID
+            WHERE news.userID = '{$_SESSION['id']}'
+            GROUP BY news.idNews"; // group da ne bi bilo duplikata
     $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        echo "Greška pri izvršavanju SQL upita: " . mysqli_error($conn);
+    } else {
+        // Ostatak koda za prikaz rezultata
+    }
+
 
     if (mysqli_num_rows($result) > 0) {
         echo "<table>";
-        echo "<tr><th>Datum</th><th>Naslov</th><th>Podnaslov</th><th>Sadrzaj</th><th>Tagovi</th><th>Izmena</th><th>Brisanje</th></tr>";
+        echo "<tr><th>Datum</th><th>Naslov</th><th>Podnaslov</th><th>Sadrzaj</th><th>Tagovi</th><th>Slike</th><th>Izmena</th><th>Brisanje</th></tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . $row["date"] . "</td>";
             echo "<td>" . $row["title"] . "</td>";
             echo "<td>" . $row["subtitle"] . "</td>";
             echo "<td>" . $row["content"] . "</td>";
-            echo "<td>" . $row["date"] . "</td>";
+            echo "<td>" . $row["tagovi"] . "</td>"; 
 
-    
+            // Prikaz slika
+            $slike = explode(',', $row["slike"]);
+            echo "<td>";
+            foreach ($slike as $slika) {
+                echo "<img src='../slike/{$slika}' alt='{$slika}' style='max-width: 100px;'>";
+            }
+            echo "</td>";
+
+
             // Provera statusa vesti zbog izmene
             if ($row["status"] == "pending") {
                 echo "<td><a href='izmeni_vest.php?id=" . $row["idNews"] . "'>Izmeni</a></td>";

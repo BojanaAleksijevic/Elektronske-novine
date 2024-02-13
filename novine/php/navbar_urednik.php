@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/stil.css">
     <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
-    <title> Pocetna stranica urednik </title>
 </head>
 
 <body>
@@ -17,6 +16,7 @@
                 <ul>
                     <li ><a href="urednik_odobrava_vesti.php"> Odobri vesti </a></li>
                     <li ><a href="logout.php"> LogOut </a></li>
+    
                 </ul>
             </nav>
         </header>
