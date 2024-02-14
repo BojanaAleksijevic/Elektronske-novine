@@ -1,7 +1,57 @@
 <?php
 require_once ('C:\wamp64\www\novine\process\db.php');
 
+// na pocetku je unos prazan
+$searchTerm = '';
+
+// Provera da li je poslat zahtev za pretragu preko metode GET
+if (isset($_GET['Pretraga'])) {
+    $searchTerm = mysqli_real_escape_string($conn, $_GET['Pretraga']);
+}
+
+// Priprema upita za pretragu vesti
+$query = "SELECT news.*,  
+          (SELECT name FROM images WHERE newsID = news.idNews LIMIT 1) AS imageName,
+          category.name AS categoryName
+          FROM news 
+          JOIN user ON news.userID = user.id
+          JOIN category ON news.categoryID = category.idCategory
+          WHERE news.status = 'approved'";
+
+// Dodavanje uslova pretrage ako je unet pojam za pretragu
+if (!empty($searchTerm)) {
+    $query .= " AND (news.title LIKE '%$searchTerm%' OR news.date LIKE '%$searchTerm%' OR news.idNews IN (SELECT newsID FROM tags WHERE contentTag LIKE '%$searchTerm%'))";
+}
+
+$query .= " ORDER BY news.date DESC";
+
+$result = mysqli_query($conn, $query);
+
+
+
+
+// Paginacija
+$resultsPerPage = 10; // Broj vesti po stranici
+$totalResults = mysqli_num_rows($result); // Ukupan broj vesti (iz upita iznad)
+$totalPages = ceil($totalResults / $resultsPerPage); // Ukupan broj stranica koji ce biti potreban
+
+if (!isset($_GET['page'])) {
+    $currentPage = 1; 
+} else {
+    $currentPage = $_GET['page'];
+}
+
+//broj rezultata koji treba preskočiti pre nego što počnemo prikazivati rezultate na trenutnoj stranici.
+$offset = ($currentPage - 1) * $resultsPerPage; // za prvu 0, za drugu 10..
+$query .= " LIMIT $offset, $resultsPerPage"; // limit ogranicava: baza vraca broj rezultata pocevsi od offset, 
+                                            // i to u količini koja je postavljena u $resultsPerPage.
+
+$result = mysqli_query($conn, $query);
+
+
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -13,58 +63,51 @@ require_once ('C:\wamp64\www\novine\process\db.php');
     <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
     <title>Bobigram</title>
 </head>
-
 <body>
+    <?php include 'navbar.php'; ?>
+
+    <form id="search-form" method="GET">
+        <input placeholder="Search..." type="text" name="Pretraga" class="pretraga" value="<?php echo $searchTerm; ?>">
+        <button type="submit" class="pretraga-button">Pretraži</button>
+        <br><br>
+    </form>
+
     <?php
-        include 'navbar.php'
-    ?>
-    
-    <input type="search" name="Pretraga" id="Pretraga">
-
-
-<?php
-// Povezivanje sa bazom podataka
-require_once ('C:\wamp64\www\novine\process\db.php');
-
-$query = "SELECT news.*, category.name AS categoryName, CONCAT(user.name, ' ', user.surname) AS authorName 
-          FROM news 
-          JOIN category ON news.categoryID = category.idCategory
-          JOIN user ON news.userID = user.id
-          WHERE status = 'approved'";
-$result = mysqli_query($conn, $query);
-
-
-if (mysqli_num_rows($result) > 0) {
-    echo "<table>";
-    echo "<tr><th>Datum</th><th>Kategorija</th><th>Naslov</th><th>Podnaslov</th><th>Sadrzaj</th><th>Autor</th></tr>";
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>" . $row["date"] . "</td>";
-        echo "<td>" . $row["categoryName"] . "</td>";
-        echo "<td>" . $row["title"] . "</td>";
-        echo "<td>" . $row["subtitle"] . "</td>";
-        echo "<td>" . $row["content"] . "</td>";
-        echo "<td>" . $row["authorName"] . "</td>";
-
-
-        echo "</tr>";
+    // Prikaz rezultata pretrage ili svih vesti
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='vest-box'>";
+            if ($row['imageName']) {
+                echo "<img src='../slike/" . $row['imageName'] . "' alt='Slika vesti'>";
+            } else {
+                echo "<p>Nema slike za ovu vest.</p>";
+            }
+            echo "<div class='vest-info'>";
+            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "'>" . $row['title'] . "</a>";
+            echo "<div class='kategorija-datum'>";
+            echo "<a href='kategorija.php?category=" . $row['categoryName'] . "' class='kategorija'>" . $row['categoryName'] . "</a>";
+            echo "<p class='datum'>" . $row['date'] . "</p>";
+            echo "</div>"; // Zatvara .kategorija-datum
+            echo "</div>"; // Zatvara .vest-info
+            echo "</div>"; // Zatvara .vest-box
+        }
+    } else {
+        echo "Nema rezultata pretrage.";
     }
-    echo "</table>";
-} else {
-    echo "Nema vesti za pregled.";
-}
+
+
+    // Linkovi za navigaciju
+    echo "<div class='pagination'>";
+    for ($i = 1; $i <= $totalPages; $i++) {
+        echo "<a href='sve_vesti.php?page=$i'>$i</a> ";
+    }
+    echo "</div>";
 
     // Oslobađanje resursa
     mysqli_free_result($result);
+    ?>
 
-    // Zatvaranje konekcije sa bazom podataka
-    mysqli_close($conn);
-
-?>
-<?php
-    include 'footer.php';
-?>
+    <?php include 'footer.php'; ?>
 
 </body>
-
 </html>

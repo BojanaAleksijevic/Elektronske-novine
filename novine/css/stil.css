@@ -2,7 +2,8 @@ body {
     max-width: 70%; 
     margin: 0 auto;
     background-color: rgb(255, 238, 218);
-    
+    overflow-x: hidden; /* Da bi se sprečilo horizontalno pomeranje sadržaja van granica tela */
+    overflow-y: auto;
 }
 
 .glavni-div {
@@ -78,7 +79,7 @@ body {
 .marquee-content {
     display: flex;
     align-items: center;
-    animation: scrolling 80s linear infinite; /* trajanje animacije */
+    animation: scrolling 30s linear infinite; /* trajanje animacije */
     flex-shrink: 0;
     white-space: nowrap; /*  da tekst ne prelazi u novi red */
 }
@@ -135,7 +136,7 @@ footer {
 
 nav ul {
     list-style-type: none;
-    width: 100%;
+    max-width: 100%;
     height: 50px;
     margin-top: 0px;
     display: flex;
@@ -159,6 +160,7 @@ a {
     color: rgb(22, 202, 31);
     font-size: 15px;
     font-weight: bold;
+    margin-top: 16px;
 }
 
 
@@ -198,6 +200,97 @@ a {
     margin-top: 30px;
 }
 
-table {
-    width: 100%;
+/*box i vesti na pocetnoj*/
+.vest-box {
+    display: flex;
+    max-width: 100%;
+    max-height: auto;
+    align-items: center;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+
+    justify-content: space-between;
+    padding: 10px;
+    background: white;
+  
 }
+
+.vest-box img {
+    flex: 1;
+    max-width: 200px;
+    height: auto;
+    margin-right: 20px;
+}
+
+
+.vest-info {
+    flex: 4;
+}
+
+.kategorija-datum {
+    display: flex;
+    justify-content: space-between;
+}
+
+.kategorija {
+    flex-grow: 1;
+}
+
+.datum {
+    flex-shrink: 0;
+}
+/*kraj box-a za vesti*/
+
+
+/*pretraga*/
+.pretraga, .pretraga-button {
+    width: 100%;
+    max-width: 220px;
+    height: 25px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .pretraga:hover, .pretraga-button:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .pretraga:active, .pretraga-button {
+    transform: scale(0.95);
+  }
+  
+  .pretraga:focus, .pretraga-button{
+    border: 2px solid grey;
+  }
+
+.pretraga-button {
+    width: 80px;
+    height: 45px;
+}
+/*pretraga*/
+
+
+
+/*paginacija*/
+.pagination {
+    text-align: center;
+}
+
+.pagination a{
+    font-size: 50px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    background-color: rgba(255, 255, 255, 0.788);
+    margin-right: 10px;
+}
+
+/*cela vest*/
+
+
+/*kraj za celu vest*/
