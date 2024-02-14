@@ -6,13 +6,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Provera da li je korisnik novinar
 if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 2) {
     header("Location: ../php/pocetna.php");
     exit;
 }
 
-// Provera da li je prosleđen ID vesti za izmenu
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -26,7 +24,6 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-    // Dohvatanje tagova za određenu vest
     $tag_query = "SELECT contentTag FROM tags WHERE newsID = $id";
     $tag_result = mysqli_query($conn, $tag_query);
     $tags = [];
@@ -39,7 +36,6 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-// Provera da li je korisnik autor vesti
 if ($vest['userID'] != $_SESSION['id']) {
     echo "Nemate dozvolu za izmenu ove vesti.";
     exit;
@@ -55,12 +51,11 @@ if(isset($_POST['submit'])) {
     $tags = isset($_POST['tags']) ? $_POST['tags'] : '';
     $images = $_FILES['images'];
 
-    // izmana za tago9ve: prvo brisanje, pa onda dodavanje novih
-    // Prvo, brišemo postojeće tagove za ovu vest
+    // izmena za tagoove: prvo brisanje, pa onda dodavanje novih
     $delete_query = "DELETE FROM tags WHERE newsID = $id";
     mysqli_query($conn, $delete_query);
 
-    // Zatim, dodajemo nove tagove
+    // dodajemo nove tagove
     if(!empty($tags)) {
         $tag_values = explode(',', $tags);
         foreach($tag_values as $tag) {
@@ -72,21 +67,18 @@ if(isset($_POST['submit'])) {
 
 // Provera da li su poslate nove slike
 if (!empty($_FILES['images']['name'][0])) {
-    // Brisanje postojećih slika
+
     $sql_delete_images = "DELETE FROM images WHERE newsID = $id";
     $query_delete_images = mysqli_query($conn, $sql_delete_images);
     
-    // Procesiranje dodavanja novih slika
     foreach ($_FILES['images']['name'] as $key => $image_name) {
         $image_type = $_FILES['images']['type'][$key];
         $image_size = $_FILES['images']['size'][$key];
         $image_tmp_loc = $_FILES['images']['tmp_name'][$key];
         
-        // Čuvanje slike na serveru
         $image_store = "../slike/" . $image_name;
         move_uploaded_file($image_tmp_loc, $image_store);
         
-        // Unos u tabelu images
         $sql_insert_image = "INSERT INTO images (newsID, name) VALUES ('$id', '$image_name')";
         $query_insert_image = mysqli_query($conn, $sql_insert_image);
     }
@@ -94,7 +86,6 @@ if (!empty($_FILES['images']['name'][0])) {
 
 
 
-    // Izvršavanje SQL upita za izmenu vesti
     $query = "UPDATE news SET title = '$title', subtitle = '$subtitle', content = '$content' WHERE idNews = $id";
     $result = mysqli_query($conn, $query);
 
@@ -151,7 +142,6 @@ if (!empty($_FILES['images']['name'][0])) {
 
                     $novinarID = $_SESSION['id'];
 
-                    // Dobijanje kategorije novinara iz tabele category
                     $sql = "SELECT c.idCategory, c.name
                             FROM category c
                             JOIN user u ON c.idCategory = u.categoryID
@@ -159,17 +149,15 @@ if (!empty($_FILES['images']['name'][0])) {
 
                     $result = mysqli_query($conn, $sql);
 
-                    // Provera da li je upit uspeo
                     if (!$result) {
                         echo "Greška prilikom izvršavanja SQL upita: " . mysqli_error($conn);
                     } else {
-                        // Provera da li ima rezultata iz upita
+
                         if ($row = mysqli_fetch_assoc($result)) {
                             $kategorija_novinara_id = $row['idCategory'];
                             $kategorija_novinara_name = $row['name'];
                             echo "<option value='$kategorija_novinara_id'>$kategorija_novinara_name</option>";
                         } else {
-                            // Dodatna provera ukoliko nema rezultata
                             echo "Nema podataka za ovog novinara.";
                         }
                     }
@@ -181,7 +169,6 @@ if (!empty($_FILES['images']['name'][0])) {
 
         <br>
 
-        <!-- Prikaz tagova -->
         <label for="tags">Tagovi:</label>
         <input type="text" id="tags" name="tags" value="<?php echo $tags_str; ?>">
         <br>

@@ -12,7 +12,7 @@
     include 'navbar.php';
     ?>
   <div class="login-box">
-    <h1> Login urednika </h1>
+    <h1> Login urednik </h1>
     
     <form method="post" action="../process/eurednik.php">
       <label for="name">Ime:</label>

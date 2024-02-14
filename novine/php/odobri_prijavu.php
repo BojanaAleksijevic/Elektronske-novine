@@ -2,7 +2,6 @@
 require_once ('C:\wamp64\www\novine\process\db.php');
 session_start();
 
-// Provera da li je korisnik admin
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 0) {
     header("Location: ../php/novine.php");
     exit;
@@ -11,7 +10,6 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 0) {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // Dohvatanje podataka iz odobrene prijave
     $queryGetApplicationData = "SELECT * FROM prijave WHERE id = $id";
     $result = mysqli_query($conn, $queryGetApplicationData);
 
@@ -33,11 +31,9 @@ if (isset($_GET['id'])) {
         }
           
 
-        // Postavljanje statusa na 'approved' za odabranu prijavu
         $queryUpdateStatus = "UPDATE prijave SET status = 'approved' WHERE id = $id";
         if (mysqli_query($conn, $queryUpdateStatus)) {
 
-            // Dodavanje korisnika u tabelu User
             $queryInsertUser = "INSERT INTO User (id, name, surname, password, role, categoryID)
                                 VALUES ('{$applicationData['id']}', '{$applicationData['name']}',
                                         '{$applicationData['surname']}', '{$applicationData['password']}', 

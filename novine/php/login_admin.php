@@ -13,7 +13,7 @@
     include 'navbar.php';
     ?>
   <div class="login-box">
-    <h1> Login admina </h1>
+    <h1> Login admin </h1>
     
     <form method="post" action="../process/eadmin.php">
     <label for="name">Ime:</label>
@@ -30,5 +30,6 @@
     <h4><a href="../php/login_urednik.php">Ti si urednik? - ULOGUJ SE OVDE </a></h4>
     <h4><a href="../php/login_novinar.php">Ti si novinar? - ULOGUJ SE OVDE</a></h4>
   </div>
+
 </body>
 </html>

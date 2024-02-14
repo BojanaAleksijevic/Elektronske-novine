@@ -12,7 +12,7 @@
     include 'navbar.php';
     ?>
   <div class="login-box">
-    <h1> Login novinara </h1>
+    <h1> Login novinar </h1>
     
     <form method="post" action="../process/enovinar.php">
     <label for="name">Ime:</label>

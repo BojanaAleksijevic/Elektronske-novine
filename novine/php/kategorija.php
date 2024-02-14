@@ -1,8 +1,7 @@
 <?php
 require_once ('C:\wamp64\www\novine\process\db.php');
-
+include 'navbar.php'; 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,59 +14,57 @@ require_once ('C:\wamp64\www\novine\process\db.php');
 </head>
 
 <body>
-    <?php
-        include 'navbar.php'
-    ?>
-
 <?php
-require_once ('C:\wamp64\www\novine\process\db.php');
 
-// Provera da li je prosleđen parametar category
 if(isset($_GET['category'])) {
-    // Dobijanje vrednosti parametra category
     $category = $_GET['category'];
 
-    // Priprema upita za dobijanje vesti odabrane kategorije sa imenom autora
-    $query = "SELECT news.date, news.title, news.subtitle, news.content, CONCAT(user.name, ' ', user.surname) AS authorName
+    $query = "SELECT news.*, 
+              (SELECT name FROM images WHERE newsID = news.idNews LIMIT 1) AS imageName,
+              category.name AS categoryName
               FROM news 
               JOIN user ON news.userID = user.id
-              WHERE news.categoryID IN (SELECT idCategory FROM category WHERE name = '$category') 
-              AND news.status = 'approved'";
+              JOIN category ON news.categoryID = category.idCategory
+              WHERE news.status = 'approved' AND news.categoryID IN (SELECT idCategory FROM category WHERE name = '$category') 
+              ORDER BY news.date DESC
+              LIMIT 5";
     $result = mysqli_query($conn, $query);
 
-    // Provera da li postoji rezultat upita
     if(mysqli_num_rows($result) > 0) {
-        // Prikaz svih vesti odabrane kategorije
-        echo "<h2>Vesti iz kategorije: $category</h2>";
-        echo "<table>";
-        echo "<tr><th>Datum</th><th>Naslov</th><th>Podnaslov</th><th>Sadrzaj</th><th>Autor</th></tr>";
+        echo "<h2>Bobigram • $category</h2>";
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='vest-box'>";
     
-        while($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row["date"] . "</td>";
-            echo "<td>" . $row["title"] . "</td>";
-            echo "<td>" . $row["subtitle"] . "</td>";
-            echo "<td>" . $row["content"] . "</td>";
-            echo "<td>" . $row["authorName"] . "</td>";
-            echo "</tr>";
+            if ($row['imageName']) {
+                echo "<img src='../slike/" . $row['imageName'] . "' alt='Slika vesti'>";
+            } else {
+                echo "<p>Nema slike za ovu vest.</p>";
+            }
+    
+            echo "<div class='vest-info'>";
+            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "' class='naslov-pojedinacna-vest'>" . $row['title'] . "</a>";
+
+            echo "<div class='kategorija-datum'>";
+            echo "<a href='kategorija.php?category=" . $row['categoryName'] . "' class='kategorija'>" . $row['categoryName'] . "</a>";
+        
+            echo "<p class='datum'>" . date('d.m.Y H:i', strtotime($row['date'])) . "</p>";
+            echo "</div>"; // Zatvara .kategorija-datum
+            
+            echo "</div>"; // Zatvara .vest-info
+            echo "</div>"; // Zatvara .vest-box
         }
-        echo "</table>";
     } else {
         echo "Nema vesti za odabranu kategoriju.";
     }
 
-    // Oslobađanje resursa
     mysqli_free_result($result);
 
-    // Zatvaranje konekcije sa bazom podataka
     mysqli_close($conn);
 } else {
-    // Ako nije prosleđen parametar category, prikažite odgovarajuću poruku
     echo "Nije odabrana kategorija.";
 }
 ?>
-
-
 
 </body>
 

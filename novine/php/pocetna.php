@@ -29,15 +29,14 @@ require_once ('C:\wamp64\www\novine\process\db.php');
                             <div class="marquee-content">
                                 
                             <?php
-                            // Dohvatanje naslova vesti iz baze podataka
                             $query = "SELECT title FROM news WHERE status='approved' ORDER BY date DESC LIMIT 3";
                             $result = mysqli_query($conn, $query);
 
-                            // Provera da li ima rezultata
                             if (mysqli_num_rows($result) > 0) {
                                 // Prikaz naslova kao linkova unutar marquee
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<a href='#' class='marquee-item'> ◼️  " . $row['title'] . "</a>";
+                                    echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "' class='marquee-item'> ◼️  " . $row['title'] . "</a>";
+
                                 }
                             } else {
                                 echo "Nema dostupnih vesti.";
@@ -53,7 +52,7 @@ require_once ('C:\wamp64\www\novine\process\db.php');
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<a href='#' class='marquee-item'>  ◼️  " . $row['title'] . "</a>";
+                                    echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "' class='marquee-item'> ◼️  " . $row['title'] . "</a>";
                                 }
                             } else {
                                 echo "Nema dostupnih vesti.";
@@ -102,13 +101,14 @@ require_once ('C:\wamp64\www\novine\process\db.php');
             }
     
             echo "<div class='vest-info'>";
-            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "'>" . $row['title'] . "</a>";
+            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "' class='naslov-pojedinacna-vest'>" . $row['title'] . "</a>";
 
-            // Prikazivanje kategorije i datuma
             echo "<div class='kategorija-datum'>";
             echo "<a href='kategorija.php?category=" . $row['categoryName'] . "' class='kategorija'>" . $row['categoryName'] . "</a>";
         
-            echo "<p class='datum'>" . $row['date'] . "</p>";
+
+            echo "<p class='datum'>" . date('d.m.Y H:i', strtotime($row['date'])) . "</p>";
+
             echo "</div>"; // Zatvara .kategorija-datum
             
             echo "</div>"; // Zatvara .vest-info
@@ -122,13 +122,8 @@ require_once ('C:\wamp64\www\novine\process\db.php');
 
 </div>
 
-        
-            <?php
-            // include 'vest_na_pocetnoj.php'
-            ?>
-
         <div class='div-desno-pocetna'>
-            <h3 style="color: black;">Kategorije</h3>
+            <p style="font-size: 30px; margin-top: 10px;">Kategorije</p>
 
             <?php
             $query = "SELECT DISTINCT name FROM category"; 
@@ -136,13 +131,23 @@ require_once ('C:\wamp64\www\novine\process\db.php');
 
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<a href='kategorija.php?category=" . $row['name'] . "' class='marquee-item' style='color: black;'>" . $row['name'] . "</a><br>";
+                    echo "<a href='kategorija.php?category=" . $row['name'] . "' class='kategorija-desno-pocetna' >" . $row['name'] . "</a><br>";
+                    echo "<br>";
                 }
             } else {
                 echo "Nema dostupnih kategorija.";
             }
             ?>
 
+            <div class='horoskop-i-prognoza'>
+            <a href="../php/cela_vest.php?title=Dnevni+horoskop%21+Lavovi+se+upuštaju+u+afere%2C+Strelčevi+menjaju+karijeru%2C+a+tek+Škorpije">
+                <img src="../slike/horoskop.png" alt="horoskop" class="horoskop">
+            </a>
+
+            <a href="../php/cela_vest.php?title=DETALJNA+VREMENSKA+PROGNOZA+ZA+SRETENJE+Subota+%C4%87e+biti+najtopliji+dan%2C+a+evo+%C5%A1ta+treba+da+znate+o+kraju+sedmice+ako+planirate+da+putujete">
+                <img src="../slike/prognoza.png" alt="prognoza" class="prognoza">
+            </a>
+            </div>
         </div>
 
     </div>

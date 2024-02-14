@@ -7,23 +7,17 @@
 
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="../css/login.css">
   <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
   <title>Novinar</title>
-  <!--<link rel="stylesheet" type="text/css" href="../css/login.css">
-  mozda registracija.css-->
 </head>
 <body>
     <?php
     include 'navbar.php';
     ?>
-    <div class="login-box">
+    <div class="login-box-reg">
       <h1> Registracija novinara </h1>
-      <!--
-      ako je trenutni PHP skript koji prikazuje ovu stranicu nazvan forma.php, 
-      onda će $_SERVER["PHP_SELF"] sadržavati vrednost /forma.php 
-      (relativna putanja do skripta). Kada korisnik pošalje formu, podaci će biti 
-      poslati na istu stranicu (forma.php u ovom slučaju) za dalju obradu.  
-      --->
+    
       <form method="post" action="<?php $_SERVER["PHP_SELF"]; ?>">
         <label for="name">Ime:</label>
         <input type="text" id="name" name="name">
@@ -40,7 +34,7 @@
         <label for="kategorija">Kategorija:</label>
         <select id="kategorija" name="kategorija">
             <?php
-            // Izvršavanje upita za dohvatanje jedinstvenih kategorija iz baze
+
             $query = "SELECT DISTINCT name FROM category";
             $result = mysqli_query($conn, $query);
 
@@ -59,7 +53,7 @@
         <br>
         <label for="experience">Iskustvo:</label>
         <br>
-        <textarea name="experience" rows="8" cols="50" required></textarea><br>
+        <textarea name="experience" rows="6" cols="36" required></textarea><br>
  
         <br><br>
         <input type="submit" name="submit" value="Posalji prijavu">
@@ -69,23 +63,13 @@
 
 
 
-</body>
-</html>
-
 <?php
 require ('C:\wamp64\www\novine\process\db.php');
 
 
 // da li poslata forma (da li je korisnik pritisnuo submit)
 if (isset($_POST['submit'])) {
- // $user_id = $_GET['user_id'];
-/*
-  if (isset($_SESSION['id'])) {
-    $user_id = $_SESSION['id']; 
-  } 
-  else{
-    header("Location:loginkandidat.php");
-  }*/
+
   $name = $_POST['name'];
   $surname = $_POST['surname'];
   $password = $_POST['password'];
@@ -113,3 +97,7 @@ if (isset($_POST['submit'])) {
   }
 }
 ?>
+
+
+</body>
+</html>

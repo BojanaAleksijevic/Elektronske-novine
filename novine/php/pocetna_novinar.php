@@ -37,7 +37,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
 
             $novinarID = $_SESSION['id'];
 
-            // dobijanje kategorije novinara iz tabele category
             $sql = "SELECT c.idCategory
                     FROM category c
                     JOIN user u ON c.idCategory = u.categoryID
@@ -45,15 +44,12 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
 
             $result = mysqli_query($conn, $sql);
 
-            // Provera da li je upit uspeo
             if (!$result) {
                 echo "Greška prilikom izvršavanja SQL upita: " . mysqli_error($conn);
             } else {
-                // Provera da li ima rezultata iz upita
                 if ($row = mysqli_fetch_assoc($result)) {
                     $kategorija_novinara = $row['idCategory'];
                 } else {
-                    // Dodatna provera ukoliko nema rezultata
                     echo "Nema podataka za ovog novinara.";
                 }
             }
@@ -81,7 +77,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
 
                     $novinarID = $_SESSION['id'];
 
-                    // Dobijanje kategorije novinara iz tabele category
                     $sql = "SELECT c.idCategory, c.name
                             FROM category c
                             JOIN user u ON c.idCategory = u.categoryID
@@ -89,17 +84,14 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
 
                     $result = mysqli_query($conn, $sql);
 
-                    // Provera da li je upit uspeo
                     if (!$result) {
                         echo "Greška prilikom izvršavanja SQL upita: " . mysqli_error($conn);
                     } else {
-                        // Provera da li ima rezultata iz upita
                         if ($row = mysqli_fetch_assoc($result)) {
                             $kategorija_novinara_id = $row['idCategory'];
                             $kategorija_novinara_name = $row['name'];
                             echo "<option value='$kategorija_novinara_id'>$kategorija_novinara_name</option>";
                         } else {
-                            // Dodatna provera ukoliko nema rezultata
                             echo "Nema podataka za ovog novinara.";
                         }
                     }
@@ -108,8 +100,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
                 <input type="text" value="<?php echo $kategorija_novinara_name; ?>" readonly>
 
 
-
-                <!--ovde treba da bude po defaultu kategorija koju je on oznacio-->
                 <br>
 
                 
@@ -122,7 +112,6 @@ Kada korisnik pritisne submit, podaci se šalju na putanju navedenu u atributu a
                 <label for="images">Dodajte slike:</label>
                 <input type="file" name="images[]" id="images" multiple required><br><br>
                 <!--'multiple' za dodavanje više slika -->
-                <!-- u css-u kucao input[type=file] i input[type=submit]--->
                 
                 
                 <input type="submit" name="submit" value="Posalji vest">

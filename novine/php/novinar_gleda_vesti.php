@@ -32,7 +32,6 @@
     }
 
 
-    // Provera da li je korisnik novinar
     if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 2) {
         header("Location: ../php/pocetna.php");
         exit;
@@ -53,9 +52,7 @@ razdvojen separatorom koji ste naveli.
 
     if (!$result) {
         echo "Greška pri izvršavanju SQL upita: " . mysqli_error($conn);
-    } else {
-        // Ostatak koda za prikaz rezultata
-    }
+    } 
 
 
     if (mysqli_num_rows($result) > 0) {
@@ -69,7 +66,6 @@ razdvojen separatorom koji ste naveli.
             echo "<td>" . $row["content"] . "</td>";
             echo "<td>" . $row["tagovi"] . "</td>"; 
 
-            // Prikaz slika
             $slike = explode(',', $row["slike"]);
             echo "<td>";
             foreach ($slike as $slika) {

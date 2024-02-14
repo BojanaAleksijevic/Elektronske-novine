@@ -7,23 +7,17 @@
 
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="../css/login.css">
   <link rel="icon" href="../slike/title-slika.png" type="image/jpg">
   <title>Urednik</title>
-  <!--<link rel="stylesheet" type="text/css" href="../css/login.css">
-  mozda registracija.css-->
 </head>
 <body>
     <?php
     include 'navbar.php';
     ?>
-    <div class="login-box">
+    <div class="login-box-reg">
       <h1> Registracija urednika </h1>
-      <!--
-      ako je trenutni PHP skript koji prikazuje ovu stranicu nazvan forma.php, 
-      onda će $_SERVER["PHP_SELF"] sadržavati vrednost /forma.php 
-      (relativna putanja do skripta). Kada korisnik pošalje formu, podaci će biti 
-      poslati na istu stranicu (forma.php u ovom slučaju) za dalju obradu.  
-      --->
+
       <form method="post" action="<?php $_SERVER["PHP_SELF"] ?>">
         <label for="name">Ime:</label>
         <input type="text" id="name" name="name">
@@ -40,13 +34,15 @@
         
         <label for="experience">Iskustvo:</label>
         <br>
-        <textarea name="experience" rows="8" cols="50" required></textarea><br>
+        <textarea name="experience" rows="6" cols="36" required></textarea><br>
 
         <br><br>
         <input type="submit" name="submit" value="Posalji prijavu">
       </form>
       <h4><a href="../php/registracija_novinara.php">Zelis da postanes novinar? - POSALJI PRIJAVU OVDE </a></h4>
     </div>
+
+    
 </body>
 </html>
 

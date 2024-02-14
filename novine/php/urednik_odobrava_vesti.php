@@ -17,13 +17,11 @@
 <?php
 require_once ('C:\wamp64\www\novine\process\db.php');
 
-// provera da li je sesija već pokrenuta pre poziva 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
 
-// Provera da li je korisnik admin
 if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 1) {
     header("Location: ../php/pocetna.php");
     exit;

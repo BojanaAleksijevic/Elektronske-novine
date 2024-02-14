@@ -2,7 +2,7 @@ body {
     max-width: 70%; 
     margin: 0 auto;
     background-color: rgb(255, 238, 218);
-    overflow-x: hidden; /* Da bi se sprečilo horizontalno pomeranje sadržaja van granica tela */
+    overflow-x: hidden; /* Da bi se sprečilo horizontalno pomeranje */
     overflow-y: auto;
 }
 
@@ -62,9 +62,6 @@ body {
 }
 
 .header-news-slider-wrapper {
-   /* flex: 0 0 calc(100% - 84px);
-    width: calc(100% - 84px);*/
-   
     margin-left: 100px;
 }
 
@@ -154,14 +151,18 @@ nav ul li :hover{
 }
 
 
-/*PROMENI BOJU !!*/
-a {
-    text-decoration: none;
-    color: rgb(22, 202, 31);
+nav a {
+    color: rgb(255, 255, 255);
     font-size: 15px;
+
+}
+
+a {
+    text-decoration: none;   
     font-weight: bold;
     margin-top: 16px;
 }
+
 
 
 
@@ -235,13 +236,40 @@ a {
 
 .kategorija {
     flex-grow: 1;
+    color: rgb(171, 45, 45);
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+
 }
 
 .datum {
     flex-shrink: 0;
 }
+
+.naslov-pojedinacna-vest{
+    color: black;
+    font-size: 25px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
 /*kraj box-a za vesti*/
 
+.horoskop-i-prognoza {
+    width: 100%;
+}
+
+.horoskop, .prognoza {
+    width: 100%;
+    height: auto;
+    margin: 5px;
+}
+
+.kategorija-desno-pocetna {
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin: 10px;
+    background-color: #a94442;
+    color: white;
+}
 
 /*pretraga*/
 .pretraga, .pretraga-button {
@@ -291,6 +319,77 @@ a {
 }
 
 /*cela vest*/
+.autor-cela-vest, .datum-cela-vest {
+        color: #4c4b4b;
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
 
+    .naslov-cela-vest {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #333;
+    }
+
+    .cela-vest-slika {
+        max-width: 50%;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .podnaslov-cela-vest {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #333;
+    }
+
+    .content-cela-vest {
+        margin-top: 15px;
+        line-height: 1.6em;
+        color: #555;
+    }
 
 /*kraj za celu vest*/
+
+
+/*prikaz like*/
+.input {
+    border: 2px solid transparent;
+    width: 15em;
+    height: 2.5em;
+    padding-left: 0.8em;
+    margin-bottom: 12px;
+    outline: none;
+    overflow: hidden;
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    transition: all 0.5s;
+  }
+  
+  .input:hover, .input:focus {
+    border: 2px solid #ec4a4a;
+    box-shadow: 0px 0px 0px 7px #fe9bba;
+    background-color: white;
+  }
+  
+
+  button {
+    border: none;
+    outline: none;
+    background-color: #ec4a4a;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 5px;
+    transition: all ease 0.1s;
+    box-shadow: 0px 5px 0px 0px #fe9bba;
+  }
+  
+  button:active {
+    transform: translateY(5px);
+    box-shadow: 0px 0px 0px 0px #a29bfe;
+  }
+/*kraj za like*/

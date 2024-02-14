@@ -2,7 +2,6 @@
 require_once ('C:\wamp64\www\novine\process\db.php');
 session_start();
 
-// Provera da li je korisnik novinar
 if (!isset($_SESSION['id']) || !isset($_SESSION['role']) || $_SESSION['role'] != 2) {
     header("Location: ../php/pocetna.php");
     exit;

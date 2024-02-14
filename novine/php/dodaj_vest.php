@@ -34,11 +34,9 @@
                     $image_size = $images['size'][$key];
                     $image_tmp_loc = $images['tmp_name'][$key];
                     
-                    // Čuvanje slike u folder
                     $image_store = "../slike/" . $image_name;
                     move_uploaded_file($image_tmp_loc, $image_store);
             
-                    // Unos u tabelu images
                     $sql_insert_image = "INSERT INTO images (newsID, name) VALUES ('$newsID', '$image_name')";
                     $query_insert_image = mysqli_query($conn, $sql_insert_image);
                 }
@@ -47,7 +45,6 @@
                 // Razdvajanje tagova po zarezima
                 $tagsArray = explode(',', $tagString);
 
-                // Umetanje tagova u tabelu tags
                 foreach ($tagsArray as $tag) {
                     $sql_insert_tag = "INSERT INTO tags (contentTag, newsID) VALUES ('$tag', '$newsID')";
                     $query_insert_tag = mysqli_query($conn, $sql_insert_tag);

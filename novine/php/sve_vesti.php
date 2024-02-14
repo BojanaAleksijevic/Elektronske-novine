@@ -9,7 +9,7 @@ if (isset($_GET['Pretraga'])) {
     $searchTerm = mysqli_real_escape_string($conn, $_GET['Pretraga']);
 }
 
-// Priprema upita za pretragu vesti
+// upit za pretragu vesti
 $query = "SELECT news.*,  
           (SELECT name FROM images WHERE newsID = news.idNews LIMIT 1) AS imageName,
           category.name AS categoryName
@@ -53,7 +53,6 @@ $result = mysqli_query($conn, $query);
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,21 +72,26 @@ $result = mysqli_query($conn, $query);
     </form>
 
     <?php
-    // Prikaz rezultata pretrage ili svih vesti
+
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<div class='vest-box'>";
+    
             if ($row['imageName']) {
                 echo "<img src='../slike/" . $row['imageName'] . "' alt='Slika vesti'>";
             } else {
                 echo "<p>Nema slike za ovu vest.</p>";
             }
+    
             echo "<div class='vest-info'>";
-            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "'>" . $row['title'] . "</a>";
+            echo "<a href='cela_vest.php?title=" . urlencode($row['title']) . "' class='naslov-pojedinacna-vest'>" . $row['title'] . "</a>";
+
             echo "<div class='kategorija-datum'>";
             echo "<a href='kategorija.php?category=" . $row['categoryName'] . "' class='kategorija'>" . $row['categoryName'] . "</a>";
-            echo "<p class='datum'>" . $row['date'] . "</p>";
+        
+            echo "<p class='datum'>" . date('d.m.Y H:i', strtotime($row['date'])) . "</p>";
             echo "</div>"; // Zatvara .kategorija-datum
+            
             echo "</div>"; // Zatvara .vest-info
             echo "</div>"; // Zatvara .vest-box
         }
@@ -96,14 +100,13 @@ $result = mysqli_query($conn, $query);
     }
 
 
-    // Linkovi za navigaciju
+    // Linkovi za paginaciju
     echo "<div class='pagination'>";
     for ($i = 1; $i <= $totalPages; $i++) {
         echo "<a href='sve_vesti.php?page=$i'>$i</a> ";
     }
     echo "</div>";
 
-    // Oslobađanje resursa
     mysqli_free_result($result);
     ?>
 

@@ -1,21 +1,17 @@
 <?php
 
-// konektuj se na bazu podataka
 require_once ('C:\wamp64\www\novine\process\db.php');
 
-// ako korisnik šalje podatke za prijavu
 if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['password'])) {
   
   $name = $_POST['name'];
   $surname = $_POST['surname'];
   $password = $_POST['password'];
   
-  // SQL upit za selektovanje korisnika iz baze podataka
   $sql = "SELECT * from  User WHERE name = '$name' AND surname = '$surname' AND password = '$password'";
   
   $result = mysqli_query($conn, $sql);
   
-  // ako upit nije uspešan
   if (!$result) {
     die("Error executing query: " . mysqli_error($conn));
   }
@@ -33,13 +29,11 @@ if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['password'
     if ($_SESSION['role'] == 0) {
         header("Location: ../php/pocetna_admin.php");
     } else {
-        // Ukoliko uloga nije 0 (admin), možete preusmeriti korisnika gde god želite
         header("Location: ../php/pocetna.php");
     }
     exit;
   }
   
-  // u suprotnom, prikaži poruku o grešci
   else {
     echo ("<SCRIPT LANGUAGE='JavaScript'>
     window.alert('Invalid username or Password')
